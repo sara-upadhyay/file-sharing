@@ -28,7 +28,7 @@ function App() {
         </div>
 
         <button className="upload-button">
-          Upload File
+          Upload the File
         </button>
       </div>
     </div>
