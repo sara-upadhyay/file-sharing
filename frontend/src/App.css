@@ -79,3 +79,7 @@ h1 {
 .upload-button:hover {
   background: #1d4ed8;
 }
+.upload-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
