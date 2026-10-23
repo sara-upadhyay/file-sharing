@@ -9,11 +9,29 @@ function formatSize(bytes) {
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const[isDragging,setIsDragging] =useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file || null);
   };
+
+  const handleDragOver = (event) =>{
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (event) =>{
+    event.preventDefault();
+    setIsDragging(false);
+    };
+
+  const handleDrop =(event) =>{
+    event.preventDefault();
+    setIsDragging(false);
+    const file =event.dataTransfer.files[0];
+    if (file) setSelectedFile(file);
+  }
 
   return (
     <div className="app">
@@ -22,10 +40,15 @@ function App() {
 
         <p className="subtitle">Share files easily without login</p>
 
-        <div className="upload-box">
+        <div
+         className={'upload-box ${isDragging ? "drag-active " : ""}'}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          >
           <div className="icon">📁</div>
 
-          <h2>Drop your file here</h2>
+          <h2> {isDragging ? "Release to drop" : "Drop your file here"}</h2>
 
           <p>or</p>
 
