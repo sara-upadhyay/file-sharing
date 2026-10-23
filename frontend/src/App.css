@@ -83,3 +83,8 @@ h1 {
   background: #9ca3af;
   cursor: not-allowed;
 }
+.upload-box.drag-active{
+  border-color: #4f46e5;
+  background: #eef2ff;
+  
+}
