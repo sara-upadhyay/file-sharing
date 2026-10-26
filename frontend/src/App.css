@@ -92,3 +92,8 @@ h1 {
   border-color: #5149e3;
   background: #eef2ff;
 }
+.status {
+  margin-top: 15px;
+  color: #444;
+  word-break: break-all;
+}

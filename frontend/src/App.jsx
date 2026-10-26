@@ -10,6 +10,8 @@ function formatSize(bytes) {
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const[isDragging,setIsDragging] =useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [status, setStatus] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -32,7 +34,34 @@ function App() {
     const file =event.dataTransfer.files[0];
     if (file) setSelectedFile(file);
   }
+const handleUpload = async () => {
+  if (!selectedFile) return;
 
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+
+  setIsUploading(true);
+  setStatus("");
+
+  try {
+    const response = await fetch("http://localhost:8080/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Upload failed (" + response.status + ")");
+    }
+
+    const data = await response.json();
+    setStatus("Uploaded: " + data.fileName);
+    setSelectedFile(null);
+  } catch (error) {
+    setStatus("Error: " + error.message);
+  } finally {
+    setIsUploading(false);
+  }
+};
   return (
     <div className="app">
       <div className="container">
@@ -64,9 +93,15 @@ function App() {
           </p>
         </div>
 
-        <button className="upload-button" disabled={!selectedFile}>
-          Upload File
-        </button>
+       <button
+  className="upload-button"
+  onClick={handleUpload}
+  disabled={!selectedFile || isUploading}
+>
+  {isUploading ? "Uploading..." : "Upload File"}
+</button>
+
+{status && <p className="status">{status}</p>}
       </div>
     </div>
   );
