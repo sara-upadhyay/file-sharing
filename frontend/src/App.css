@@ -84,7 +84,7 @@ h1 {
 }
 
 .upload-button:disabled {
-  background: #9ca3af;
+  background: #a4a9b3;
   cursor: not-allowed;
 }
 
